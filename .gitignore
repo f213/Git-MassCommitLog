@@ -1,0 +1,7 @@
+t/repos
+Makefile
+Makefile.old
+*.swp
+blib/
+pm_to_blib
+cover_db/
