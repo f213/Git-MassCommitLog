@@ -114,7 +114,7 @@ sub _getCommits
 
 	foreach my $repo (@{$self->{@repos}}){
 		$self->debug("Searching for commits in $repo...");
-		open(my $gitO, "git --no-pager --git-dir=$self->{config}{dir}/$repo.git log --pretty=$GITLOGFORMAT  --reverse -$GLOBAL_COMMIT_LIMIT|") or confess $!;
+		open(my $gitO, "git --no-pager --git-dir=$self->{config}{dir}/$repo.git log --since=$timeLimit --pretty=$GITLOGFORMAT  --reverse -$GLOBAL_COMMIT_LIMIT|") or confess $!;
 		while(<$gitO>)
 		{
 			chomp;

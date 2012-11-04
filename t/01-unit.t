@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 
 
-use Test::More tests=>8;
+use Test::More tests=>9;
 use Class::Date qw /date/;
 use Data::Dumper;
 use Carp;
@@ -89,5 +89,10 @@ BEGIN {
 	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'ignoreReposPattern' => [ 'or\.ru$', 'avka.ru' ]);
 	@t = $gl->commits();
 	is($#t, 2, 'Test ignoring repos'); #must be 3 commits from edcamp.ru
+
+
+	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'since' => '2012-11-01');
+	@t = $gl->repoCommits('intensor.ru');
+	is($#t, 5, 'Test fetching commits from some date');
 
 }
