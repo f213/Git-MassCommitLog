@@ -1,0 +1,24 @@
+--- #YAML:1.0
+name:               Git-MassCommitLog
+version:            0.01
+abstract:           Perl extension for fetching commit info from directory with bunch of git repositories.
+author:
+    - Fedor A Borshev <fedor@shogo.ru>
+license:            unknown
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
+requires:
+    Badger::Base        0
+    IO::Dir             0
+    Class::Date         0
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.55_02
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4

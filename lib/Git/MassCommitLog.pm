@@ -9,7 +9,7 @@ use IO::Dir;
 use Class::Date qw /date/;
 =head1 NAME
 
-Git::MassCommitLog - The great new Git::MassCommitLog!
+Git::MassCommitLog - Perl extension for fetching commit info from directory with bunch of git repositories.
 
 =head1 VERSION
 
@@ -25,14 +25,25 @@ my $commits;
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+	use Git::MassCommitLog;
 
-Perhaps a little code snippet.
+	my $gitLog = Git::MassCommitLog(
+		dir			=> 'your_dir_with_repositories',
+		ignoreMessagePattern'	=> [ 'pattern1$', 'p[ae]ttern2', ],
+		ignoreAuthorPattren'	=> [ 'bad_author_name1$', 'bad_author_name2', ],
+		ignoreReposPattern	=> [ 'repo_name1$', 'repo_name2', ],
+		since			=> '2012-10-01', #must be understanded by git (man 1 git-log)
+	);
 
-    use Git::MassCommitLog;
+	my @commits		= $gitLog->repoCommits ('repoName');
+	my @last_5_commits	= $gitLog->repoCommits ('repoName', 5);
 
-    my $foo = Git::MassCommitLog->new();
-    ...
+	my @all_commits		= $gitLog->commits ();
+	my @last_5_all_commits	= $gitlog->commits (5);
+
+=head1 DESCRIPTION
+
+This module is designed for geathering commit statistics from multiple GIT repositories, located in one folder. It searches for repository  subfolders (/\.git$/) in the folder, given by the 'dir' parameter. 
 
 =head1 EXPORT
 

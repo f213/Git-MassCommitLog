@@ -1,14 +1,17 @@
 #!/usr/bin/perl 
 
 
-use Test::More tests=>9;
+use Test::More;
 use Class::Date qw /date/;
 use Data::Dumper;
 use Carp;
 
-BEGIN {
+my $TESTS = 9;
+plan tests => $TESTS;
+SKIP: {
+	skip 'For unit testing we need repository examples. Sorry for that, but i used my company live repositories for testing, so i cannot publish them.', $TESTS if not -d 't/repos';
 	use Git::MassCommitLog;
-
+	
 	my $gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1);
 
 	my @repos=(
