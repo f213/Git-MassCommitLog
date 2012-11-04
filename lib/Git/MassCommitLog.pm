@@ -60,8 +60,11 @@ sub repos
 }
 sub repoCommits
 {
-	(my $self, my $repo) = @_;
-	return @{$self->{commits}{$repo}};
+	(my $self, my $repo, my $limit) = @_;
+	$limit=$GLOBAL_COMMIT_LIMIT if not $limit;
+	return @{$self->{commits}{$repo}} if $limit > $#{$self->{commits}{$repo}};
+	return @{$self->{commits}{$repo}}[-$limit...-1];
+
 }
 sub commits
 {

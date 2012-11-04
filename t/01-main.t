@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 
 
-use Test::More tests=>4;
+use Test::More tests=>5;
 use Class::Date qw /date/;
 use Data::Dumper;
 use Carp;
@@ -39,7 +39,20 @@ BEGIN {
 		}},
 	);
 	my @res = $gl->repoCommits('edcamp.ru');
+	is_deeply(\@res, \@c, 'Test fetching commits by repo');
+	
+
+	@c = (
+		{'c7080584f242a61cfa67b825476bfc322e475f59' => {
+			'author' => 'skif <s@shogo.ru>',
+			'date' => date ("2012-10-24 16:31:10"),
+			'message' => "order - change year range refs #2476",
+			'repo'	=> 'edcamp.ru',
+		}}
+	);
+	@res = $gl->repoCommits('edcamp.ru',1);
 	is_deeply(\@res, \@c, 'Test fetching commits with limit');
+
 
 	my @total_commits = $gl->commits();
 
