@@ -86,7 +86,7 @@ sub commits
 	{
 		push @commits, $_ foreach($self->repoCommits($repo));
 	}
-	@commits = sort { (my $aKey) = keys %{$a}; (my $bKey) = keys %{$b}; $a->{$aKey}{date} cmp $b->{$bKey}{date}; } @commits;
+	@commits = sort { (my $aKey) = keys %{$a}; (my $bKey) = keys %{$b}; $a->{$aKey}{date} cmp $b->{$bKey}{date}; } @commits; #Гыгы. вопщем при сравнении мы берем первый попавшийся ключ (а он там один, и является хешем коммита), и получаем из него значение. Значение является экземпляром Class::Date, которое поддерживает сравнивание.
 
 	return @commits if($limit>$#commits);
 	return @commits[-$limit...-1];
@@ -115,7 +115,7 @@ sub _getRepoList
 		$d{$dir} = '';
 		
 	}
-	push @{$self->{@repos}}, $_ foreach sort keys %d;
+	push @{$self->{@repos}}, $_ foreach sort keys %d; #пущай все репозитории хранятся в алфавитном порядке
 }
 sub _getCommits
 {
