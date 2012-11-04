@@ -1,0 +1,19 @@
+Source: libgit-masscommitlog-perl
+Section: perl
+Priority: optional
+Build-Depends: debhelper (>= 7)
+Build-Depends-Indep: perl
+Maintainer: Fedor A Borshev <fedor@shogo.ru>
+Standards-Version: 3.9.1
+Homepage: http://search.cpan.org/dist/Git-MassCommitLog/
+
+Package: libgit-masscommitlog-perl
+Architecture: all
+Depends: ${misc:Depends}, ${perl:Depends}, libbadger-base-perl,
+ libclass-date-perl
+Description: (no short description found)
+ Git::MassCommitLog is designed for geathering commit statistics from multiple
+ GIT repositories, located in one folder. It searches for repository
+ subfolders (/\.git$/) in the folder, given by the 'dir' parameter.
+ .
+ This description was automagically extracted from the module by dh-make-perl.

@@ -1,0 +1,5 @@
+libgit-masscommitlog-perl (0.01-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Fedor A Borshev <fedor@shogo.ru>  Sun, 4 Nov 2012 19:28:50 +0400
