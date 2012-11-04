@@ -100,6 +100,7 @@ sub _getRepoList
 		next if $dir !~ m/\.git$/;
 		next if not $self->_isGitRepo($dir);
 		$dir =~ s/\.git$//;
+		next if not $self->_testRepoForIgnoring($dir);
 		$d{$dir} = '';
 		
 	}
@@ -127,6 +128,22 @@ sub _getCommits
 			push @{$self->{commits}{$repo}}, \%c;
 		}
 	}
+}
+sub _testRepoForIgnoring
+{
+	(my $self, my $repo) = @_;
+
+	if(exists $self->{config}{ignoreReposPattern})
+	{
+		foreach my $regex (@{$self->{config}{ignoreReposPattern}})
+		{
+			if($repo =~ /$regex/)
+			{
+				return 0;
+			}
+		}
+	}
+	return 1;
 }
 
 sub _testCommitForIgnoring

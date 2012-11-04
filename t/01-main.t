@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 
 
-use Test::More tests=>7;
+use Test::More tests=>8;
 use Class::Date qw /date/;
 use Data::Dumper;
 use Carp;
@@ -85,5 +85,9 @@ BEGIN {
 	@t = $gl->repoCommits('intensor.ru');
 	is($#t, 54-9, 'Test ignoring commit authors'); #54 total commits, 9 commits by author Skif
 
+
+	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'ignoreReposPattern' => [ 'or\.ru$', 'avka.ru' ]);
+	@t = $gl->commits();
+	is($#t, 2, 'Test ignoring repos'); #must be 3 commits from edcamp.ru
 
 }
