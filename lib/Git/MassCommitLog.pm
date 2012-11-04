@@ -19,7 +19,7 @@ Version 0.01
 
 our $VERSION = '0.01';
 our $GITLOGFORMAT = q/format:"%H|%an <%ae>|%ai|%s"/;
-our $GLOBAL_COMMIT_LIMIT = 50;
+our $GLOBAL_COMMIT_LIMIT = 100;
 my @repos;
 my $commits;
 
@@ -118,9 +118,7 @@ sub _getCommits
 		{
 			chomp;
 			my @a = split /\|/, $_;
-			#$self->{commits}{$repo}{$a[0]}{author}		= $a[1];
-			#$self->{commits}{$repo}{$a[0]}{date}		= date ($a[2]);
-			#$self->{commits}{$repo}{$a[0]}{message}		= $a[3];
+			next if not $self->_testCommitForIgnoring(@a);
 			my %c;
 			$c{$a[0]}{author}	= $a[1];
 			$c{$a[0]}{date}		= date ($a[2]);
@@ -129,6 +127,24 @@ sub _getCommits
 			push @{$self->{commits}{$repo}}, \%c;
 		}
 	}
+}
+
+sub _testCommitForIgnoring
+{
+	my $self = shift;
+	my @commit = @_;
+
+	if(exists $self->{config}{ignoreMessagePattern})
+	{
+		foreach my $regex (@{$self->{config}{ignoreMessagePattern}})
+		{
+			if($commit[3] =~ /$regex/)
+			{
+				return 0;
+			}
+		}
+	}
+	return 1;
 }
 
 

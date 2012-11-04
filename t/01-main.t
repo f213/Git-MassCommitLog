@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 
 
-use Test::More tests=>5;
+use Test::More tests=>6;
 use Class::Date qw /date/;
 use Data::Dumper;
 use Carp;
@@ -56,7 +56,7 @@ BEGIN {
 
 	my @total_commits = $gl->commits();
 
-	is($#total_commits, 62, 'Test fetching all commits in all repos');
+	is($#total_commits, 67, 'Test fetching all commits in all repos');
 
 	@c = (
 		{'64a5ef982bd37a1b833a75a98845f8ccd747bbaf' => {
@@ -75,6 +75,11 @@ BEGIN {
 	
 	@res = $gl->commits(2);
 	is_deeply(\@res, \@c, 'Fetch last 2 commits from all repositories');
+	
+
+	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'ignoreMessagePattern' => ['^Merge branch', 'refs\ \#\d+',]);
+	my @t = $gl->repoCommits('intensor.ru');
+	is($#t, 54-23-5+1, 'Test ignoring commit messages'); #54 total commits, 23 commits with refs, 5 merges
 
 
 }
