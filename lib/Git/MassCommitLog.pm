@@ -144,6 +144,17 @@ sub _testCommitForIgnoring
 			}
 		}
 	}
+	if(exists($self->{config}{ignoreAuthorPattern}))
+	{
+		foreach my $regex (@{$self->{config}{ignoreAuthorPattern}})
+		{
+			if($commit[1] =~ /$regex/)
+			{
+				return 0;
+			}
+		}
+	}
+
 	return 1;
 }
 

@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 
 
-use Test::More tests=>6;
+use Test::More tests=>7;
 use Class::Date qw /date/;
 use Data::Dumper;
 use Carp;
@@ -80,6 +80,10 @@ BEGIN {
 	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'ignoreMessagePattern' => ['^Merge branch', 'refs\ \#\d+',]);
 	my @t = $gl->repoCommits('intensor.ru');
 	is($#t, 54-23-5+1, 'Test ignoring commit messages'); #54 total commits, 23 commits with refs, 5 merges
+
+	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'ignoreAuthorPattern' => ['skif',]);
+	@t = $gl->repoCommits('intensor.ru');
+	is($#t, 54-9, 'Test ignoring commit authors'); #54 total commits, 9 commits by author Skif
 
 
 }
