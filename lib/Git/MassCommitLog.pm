@@ -22,6 +22,7 @@ our $GITLOGFORMAT = q/format:"%H|%an <%ae>|%ai|%s"/;
 our $GLOBAL_COMMIT_LIMIT = 100;
 my @repos;
 my $commits;
+our $DEBUG = 0 unless defined $DEBUG;
 
 =head1 SYNOPSIS
 
@@ -104,7 +105,7 @@ sub _getRepoList
 {
 	my $self = shift;
 	my %d;
-	$self->debug("Searching for git repos in  $self->{config}{dir}");
+	$self->debug("Searching for git repos in  $self->{config}{dir}") if $DEBUG;
 	my $gitDir = IO::Dir->new($self->{config}{dir});
 	while(my $dir = $gitDir->read)
 	{
@@ -124,7 +125,7 @@ sub _getCommits
 	$timeLimit = $self->{config}{since} if exists $self->{config}{since} and $self->{config}{since};
 
 	foreach my $repo (@{$self->{@repos}}){
-		$self->debug("Searching for commits in $repo...");
+		$self->debug("Searching for commits in $repo...") if $DEBUG;
 		open(my $gitO, "git --no-pager --git-dir=$self->{config}{dir}/$repo.git log --since=$timeLimit --pretty=$GITLOGFORMAT  --reverse -$GLOBAL_COMMIT_LIMIT|") or confess $!;
 		while(<$gitO>)
 		{

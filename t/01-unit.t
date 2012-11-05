@@ -8,11 +8,13 @@ use Carp;
 
 my $TESTS = 9;
 plan tests => $TESTS;
+my $DEBUG = 0;
 SKIP: {
 	skip 'For unit testing we need repository examples. Sorry for that, but i used my company live repositories for testing, so i cannot publish them.', $TESTS if not -d 't/repos';
 	use Git::MassCommitLog;
 	
-	my $gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1);
+	$Git::MassCommitLog::DEBUG = $DEBUG;
+	my $gl = Git::MassCommitLog->new(dir=>'t/repos');
 
 	my @repos=(
 		'edcamp.ru',
@@ -80,21 +82,21 @@ SKIP: {
 	is_deeply(\@res, \@c, 'Fetch last 2 commits from all repositories');
 	
 
-	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'ignoreMessagePattern' => ['^Merge branch', 'refs\ \#\d+',]);
+	$gl = Git::MassCommitLog->new(dir=>'t/repos', 'ignoreMessagePattern' => ['^Merge branch', 'refs\ \#\d+',]);
 	my @t = $gl->repoCommits('intensor.ru');
 	is($#t, 54-23-5+1, 'Test ignoring commit messages'); #54 total commits, 23 commits with refs, 5 merges
 
-	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'ignoreAuthorPattern' => ['skif',]);
+	$gl = Git::MassCommitLog->new(dir=>'t/repos', 'ignoreAuthorPattern' => ['skif',]);
 	@t = $gl->repoCommits('intensor.ru');
 	is($#t, 54-9, 'Test ignoring commit authors'); #54 total commits, 9 commits by author Skif
 
 
-	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'ignoreReposPattern' => [ 'or\.ru$', 'avka.ru' ]);
+	$gl = Git::MassCommitLog->new(dir=>'t/repos', 'ignoreReposPattern' => [ 'or\.ru$', 'avka.ru' ]);
 	@t = $gl->commits();
 	is($#t, 2, 'Test ignoring repos'); #must be 3 commits from edcamp.ru
 
 
-	$gl = Git::MassCommitLog->new(dir=>'t/repos', DEBUG=>1, 'since' => '2012-11-01');
+	$gl = Git::MassCommitLog->new(dir=>'t/repos',  'since' => '2012-11-01');
 	@t = $gl->repoCommits('intensor.ru');
 	is($#t, 5, 'Test fetching commits from some date');
 
