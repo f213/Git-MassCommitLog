@@ -9,7 +9,7 @@ Homepage: http://search.cpan.org/dist/Git-MassCommitLog/
 
 Package: libgit-masscommitlog-perl
 Architecture: all
-Depends: ${misc:Depends}, ${perl:Depends}, libbadger-base-perl,
+Depends: ${misc:Depends}, ${perl:Depends}, libbadger-perl,
  libclass-date-perl
 Description: (no short description found)
  Git::MassCommitLog is designed for geathering commit statistics from multiple
